@@ -1,0 +1,52 @@
+{
+  "columns": {
+    "respondent_id": 0,
+    "submitted_at": 1,
+    "duration": 2,
+    "origin": 5,
+    "reported_total": 6,
+    "demographics": {
+      "experience": 7,
+      "stage": 8,
+      "subject": 9,
+      "digital_confidence": 10,
+      "tool_frequency": 11
+    },
+    "items": {
+      "item_01": 12,
+      "item_02": 13,
+      "item_03": 14,
+      "item_04": 15,
+      "item_05": 16,
+      "item_06": 17,
+      "item_07": 18,
+      "item_08": 19,
+      "item_09": 20,
+      "item_10": 21,
+      "item_11": 22,
+      "item_12": 23
+    },
+    "open_text": {
+      "open_positive": 24,
+      "open_negative": 25,
+      "open_process": 26
+    }
+  },
+  "ordinal_labels": [
+    "strongly dissatisfied",
+    "dissatisfied",
+    "neutral",
+    "satisfied",
+    "strongly satisfied"
+  ],
+  "dimensions": {
+    "artefact_quality": ["item_01", "item_02", "item_03", "item_04", "item_05"],
+    "interaction_experience": ["item_06", "item_07", "item_08", "item_09"],
+    "adoption_disposition": ["item_10", "item_11", "item_12"]
+  },
+  "arm_from_filename": {
+    "condition_a": "treatment",
+    "condition_b": "control"
+  },
+  "wave_boundary": "2026-06-01"
+}

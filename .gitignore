@@ -1,0 +1,76 @@
+# ---------------------------------------------------------------------------
+# Release policy: source code only. No input data, no derived data, no outputs.
+# Every pattern below is deliberate. Do not relax without review.
+# ---------------------------------------------------------------------------
+
+# Input data of any kind
+data/
+raw/
+input/
+inputs/
+*.xlsx
+*.xls
+*.csv
+*.tsv
+*.parquet
+*.sav
+*.dta
+*.json
+!examples/*.example.json
+
+# Local schema descriptions derived from source files
+config/
+*.schema.json
+
+# Derived and output artefacts
+outputs/
+output/
+results/
+figures/
+figs/
+tables/
+artefacts/
+artifacts/
+logs/
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.pdf
+*.eps
+*.tif
+*.tiff
+
+# Documents
+*.docx
+*.doc
+*.odt
+*.pptx
+*.md.bak
+
+# Model and cache artefacts
+models/
+checkpoints/
+*.pkl
+*.joblib
+*.h5
+*.pt
+*.onnx
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.env
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Editor and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
