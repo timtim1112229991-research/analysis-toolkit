@@ -3,7 +3,6 @@
 __all__ = [
     "schema",
     "loading",
-    "scales",
     "reliability",
     "comparison",
     "clustering",
