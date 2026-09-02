@@ -6,6 +6,7 @@ __all__ = [
     "scales",
     "reliability",
     "comparison",
+    "clustering",
     "equivalence",
     "adoption",
     "integrity",

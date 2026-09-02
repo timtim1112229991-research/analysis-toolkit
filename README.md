@@ -18,6 +18,7 @@ different screening choices produce.
 | `src/reliability.py` | Coefficient alpha with bootstrap intervals, item diagnostics |
 | `src/comparison.py` | Rank-based and Welch contrasts, effect sizes, false discovery rate control |
 | `src/equivalence.py` | Two one-sided tests against a declared margin, smallest detectable difference |
+| `src/clustering.py` | Cluster diagnosis, cluster bootstrap intervals, matched pair contrasts, clustered standard errors |
 | `src/integrity.py` | Response integrity signals, declared thresholds, record-level audit log |
 | `src/sensitivity.py` | Progressive exclusion and conclusion stability across screening severity |
 | `src/adoption.py` | Proportional odds and least squares models for the adoption outcome |
