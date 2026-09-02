@@ -10,11 +10,13 @@ from src.coding import (
     Code,
     Frame,
     agreement_report,
+    blind_keys,
     build_sheet,
     cohen_kappa,
     disagreements,
     merge_resolved,
     pabak,
+    restore_keys,
     theme_frequencies,
 )
 
@@ -56,6 +58,29 @@ def test_sheet_shuffle_preserves_membership(records):
 def test_missing_field_is_rejected(records):
     with pytest.raises(KeyError):
         build_sheet(records, Frame(field="absent", question="", codes=FRAME.codes))
+
+
+def test_blinding_removes_the_original_key(records):
+    sheet = build_sheet(records, FRAME)
+    blinded, crosswalk = blind_keys(sheet)
+    assert "record_key" not in blinded.columns
+    assert blinded["coding_id"].is_unique
+    assert not blinded.to_csv(index=False).count("r00"), "no original key survives in the sheet"
+    assert len(crosswalk) == len(sheet)
+
+
+def test_blinded_keys_round_trip(records):
+    sheet = build_sheet(records, FRAME)
+    blinded, crosswalk = blind_keys(sheet)
+    restored = restore_keys(blinded, crosswalk)
+    assert set(restored["record_key"]) == set(sheet["record_key"])
+
+
+def test_restore_rejects_an_incomplete_crosswalk(records):
+    sheet = build_sheet(records, FRAME)
+    blinded, crosswalk = blind_keys(sheet)
+    with pytest.raises(ValueError):
+        restore_keys(blinded, crosswalk.iloc[:2])
 
 
 def test_perfect_agreement_gives_unit_kappa():

@@ -77,6 +77,40 @@ def build_sheet(
     return sheet
 
 
+def blind_keys(
+    sheet: pd.DataFrame,
+    key_column: str = "record_key",
+    prefix: str = "C",
+    digits: int = 4,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Replace record keys with opaque identifiers and return the crosswalk.
+
+    Record keys derived from source filenames frequently carry the condition in
+    readable form, which would defeat the point of a blinded sheet. The
+    crosswalk is held by the analyst and is not given to coders.
+    """
+    if key_column not in sheet:
+        raise KeyError(f"column {key_column} is absent from the sheet")
+
+    blinded = sheet.copy()
+    ids = [f"{prefix}{i + 1:0{digits}d}" for i in range(len(blinded))]
+    crosswalk = pd.DataFrame({"coding_id": ids, key_column: blinded[key_column].to_numpy()})
+
+    blinded.insert(0, "coding_id", ids)
+    blinded = blinded.drop(columns=[key_column])
+    return blinded, crosswalk
+
+
+def restore_keys(
+    sheet: pd.DataFrame, crosswalk: pd.DataFrame, key_column: str = "record_key"
+) -> pd.DataFrame:
+    """Rejoin true record keys to a completed sheet."""
+    merged = sheet.merge(crosswalk, on="coding_id", how="left")
+    if merged[key_column].isna().any():
+        raise ValueError("the crosswalk does not cover every coded record")
+    return merged.drop(columns=["coding_id"])
+
+
 def percent_agreement(a: pd.Series, b: pd.Series) -> float:
     paired = pd.concat([a, b], axis=1).dropna()
     if paired.empty:
