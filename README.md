@@ -22,6 +22,7 @@ different screening choices produce.
 | `src/sensitivity.py` | Progressive exclusion and conclusion stability across screening severity |
 | `src/adoption.py` | Proportional odds and least squares models for the adoption outcome |
 | `src/qualitative.py` | Language-neutral substance descriptors and coder agreement |
+| `src/coding.py` | Blinded coding sheets, chance-corrected agreement, adjudication and theme frequencies |
 | `src/reporting.py` | Output writing with a provenance manifest for every run |
 | `src/simulate.py` | Synthetic samples with contamination of known type and prevalence |
 | `src/run_analysis.py` | Command line pipeline tying the above together |

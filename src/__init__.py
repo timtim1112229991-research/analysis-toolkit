@@ -11,6 +11,7 @@ __all__ = [
     "integrity",
     "sensitivity",
     "qualitative",
+    "coding",
     "reporting",
     "simulate",
 ]
