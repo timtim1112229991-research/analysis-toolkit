@@ -7,6 +7,7 @@ import pandas as pd
 import pytest
 
 from src.clustering import (
+    cluster_bootstrap_coefficients,
     cluster_bootstrap_difference,
     cluster_equivalence,
     cluster_robust_linear,
@@ -116,6 +117,47 @@ def test_paired_contrast_uses_only_pairs(crossed):
 def test_paired_contrast_declines_when_pairs_are_scarce(independent):
     result = paired_contrast(independent, "score", "arm", "origin", ARMS)
     assert result["verdict"] == "too few pairs"
+
+
+def _slope(frame: pd.DataFrame) -> pd.Series:
+    import statsmodels.api as sm
+
+    design = sm.add_constant(frame[["treated"]].astype(float))
+    return sm.OLS(frame["score"].astype(float), design).fit().params
+
+
+def test_bootstrap_coefficients_bracket_the_estimate(crossed):
+    frame = crossed.assign(treated=(crossed["arm"] == "treatment").astype(int))
+    table = cluster_bootstrap_coefficients(frame, "origin", _slope, n_boot=300)
+    assert set(table.index) == {"const", "treated"}
+    assert (table["lower"] <= table["coefficient"]).all()
+    assert (table["upper"] >= table["coefficient"]).all()
+    assert table.attrs["resamples"] == 300
+    assert table.attrs["failures"] == 0
+
+
+def test_bootstrap_coefficients_can_report_odds_ratios(crossed):
+    frame = crossed.assign(treated=(crossed["arm"] == "treatment").astype(int))
+    table = cluster_bootstrap_coefficients(
+        frame, "origin", _slope, n_boot=200, exponentiate=True
+    )
+    assert "or_coefficient" in table.columns
+    assert (table["or_coefficient"] > 0).all()
+
+
+def test_failed_fits_are_counted_not_hidden(crossed):
+    frame = crossed.assign(treated=(crossed["arm"] == "treatment").astype(int))
+    calls = {"n": 0}
+
+    def flaky(sample: pd.DataFrame) -> pd.Series:
+        calls["n"] += 1
+        if calls["n"] % 3 == 0 and calls["n"] > 1:
+            raise RuntimeError("did not converge")
+        return _slope(sample)
+
+    table = cluster_bootstrap_coefficients(frame, "origin", flaky, n_boot=90)
+    assert table.attrs["failures"] > 0
+    assert table.attrs["resamples"] + table.attrs["failures"] == 90
 
 
 def test_cluster_robust_fit_reports_intervals(crossed):

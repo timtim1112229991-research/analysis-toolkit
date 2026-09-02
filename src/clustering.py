@@ -14,6 +14,7 @@ smaller but cleanly paired sample.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 
 import numpy as np
@@ -225,6 +226,63 @@ def paired_contrast(
         out["equivalent"] = inside
         out["verdict"] = "equivalent" if inside else "inconclusive"
     return out
+
+
+def cluster_bootstrap_coefficients(
+    frame: pd.DataFrame,
+    cluster: str,
+    estimator: Callable[[pd.DataFrame], pd.Series],
+    n_boot: int = 2000,
+    seed: int = 20260902,
+    alpha: float = 0.05,
+    exponentiate: bool = False,
+) -> pd.DataFrame:
+    """Bootstrap any coefficient vector by resampling whole clusters.
+
+    Models without a clustered covariance option, the proportional odds model
+    among them, can still be reported honestly by refitting on cluster
+    resamples. Fits that fail to converge on a resample are discarded and
+    counted, since a silent drop would bias the interval.
+    """
+    observed = estimator(frame)
+    keys = frame[cluster].unique()
+    blocks = {key: block for key, block in frame.groupby(cluster)}
+
+    rng = np.random.default_rng(seed)
+    draws: list[pd.Series] = []
+    failures = 0
+    for _ in range(n_boot):
+        chosen = rng.choice(keys, size=len(keys), replace=True)
+        resample = pd.concat([blocks[key] for key in chosen], ignore_index=True)
+        try:
+            draws.append(estimator(resample))
+        except Exception:
+            failures += 1
+
+    if not draws:
+        raise RuntimeError("every bootstrap fit failed")
+
+    matrix = pd.DataFrame(draws).reindex(columns=observed.index)
+    lower = matrix.quantile(alpha / 2)
+    upper = matrix.quantile(1 - alpha / 2)
+
+    table = pd.DataFrame(
+        {
+            "coefficient": observed.round(4),
+            "cluster_se": matrix.std(ddof=1).round(4),
+            "lower": lower.round(4),
+            "upper": upper.round(4),
+        }
+    )
+    table["excludes_zero"] = (table["lower"] > 0) | (table["upper"] < 0)
+    if exponentiate:
+        for column in ("coefficient", "lower", "upper"):
+            table[f"or_{column}"] = np.exp(table[column]).round(3)
+
+    table.attrs["resamples"] = len(draws)
+    table.attrs["failures"] = failures
+    table.attrs["clusters"] = len(keys)
+    return table
 
 
 def cluster_robust_linear(
