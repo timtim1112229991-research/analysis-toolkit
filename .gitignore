@@ -81,6 +81,9 @@ env/
 .DS_Store
 Thumbs.db
 
+# Scratch files used to pass a commit message to git without a shell heredoc
+_commit_message.txt
+
 # ---------------------------------------------------------------------------
 # Published provenance, re-admitted after the blanket rules above.
 #
