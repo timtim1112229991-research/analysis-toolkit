@@ -11,7 +11,7 @@ from difflib import SequenceMatcher
 
 import pandas as pd
 
-from _paths import workbooks
+from _paths import record_run, workbooks
 
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -122,3 +122,10 @@ for field in FIELDS.values():
     table['percentage'] = (100 * table['sum'] / table['count']).round(1)
     print('\n%s' % field)
     print(table.to_string())
+
+record_run('check_crossover', {
+    'open_text_fields': sorted(FIELDS.values()),
+    'shared_origin_test': 'network origin recurring across arms',
+    'verbatim_test': 'sequence similarity between open responses across arms',
+    'records': int(len(frame)),
+})
