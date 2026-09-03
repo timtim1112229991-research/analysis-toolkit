@@ -1,0 +1,22 @@
+{
+  "clean_disregarding": [
+    "studies/lesson-planning-2026/manifests/"
+  ],
+  "commit": "e9e0006557ea3b358cc5205470e313671058f466",
+  "generated_at": "2026-09-03T07:49:08+00:00",
+  "parameters": {
+    "blinded": true,
+    "coders": 2,
+    "frames": [
+      "open_negative",
+      "open_positive",
+      "open_process_multi_agent",
+      "open_process_single_model"
+    ],
+    "records_available": 74,
+    "schema_digest": "557cfd347dab081e5d329bae5611034bd762cb875227baca42cc8147e2beb1dd"
+  },
+  "platform": "Windows-10-10.0.19044-SP0",
+  "python": "3.13.9",
+  "working_tree_clean": true
+}

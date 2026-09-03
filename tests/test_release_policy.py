@@ -136,6 +136,29 @@ def test_published_manifests_carry_no_results():
     assert offenders == [], f"manifests carry unexpected fields: {offenders}"
 
 
+CITATION_FILES = {"CITATION.cff", ".zenodo.json"}
+ORCID = re.compile(r"\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b")
+
+
+def test_contributors_are_named_only_where_a_citation_requires_it():
+    """A deposit cited in a paper needs creators. Nothing else here does.
+
+    The identifiers are the reliable marker: a surname can occur by accident,
+    an ORCID cannot.
+    """
+    offenders = []
+    for path in tracked_files():
+        if path.name in CITATION_FILES:
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError):
+            continue
+        if ORCID.search(text):
+            offenders.append(path.name)
+    assert offenders == [], f"contributor identifiers outside citation metadata: {offenders}"
+
+
 def test_gitignore_covers_every_restricted_directory():
     patterns = (ROOT / ".gitignore").read_text(encoding="utf-8")
     missing = [d for d in FORBIDDEN_DIRECTORIES if f"{d}/" not in patterns]

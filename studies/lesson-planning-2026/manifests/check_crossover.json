@@ -1,0 +1,20 @@
+{
+  "clean_disregarding": [
+    "studies/lesson-planning-2026/manifests/"
+  ],
+  "commit": "e9e0006557ea3b358cc5205470e313671058f466",
+  "generated_at": "2026-09-03T07:49:07+00:00",
+  "parameters": {
+    "open_text_fields": [
+      "open_negative",
+      "open_positive",
+      "open_process"
+    ],
+    "records": 74,
+    "shared_origin_test": "network origin recurring across arms",
+    "verbatim_test": "sequence similarity between open responses across arms"
+  },
+  "platform": "Windows-10-10.0.19044-SP0",
+  "python": "3.13.9",
+  "working_tree_clean": true
+}

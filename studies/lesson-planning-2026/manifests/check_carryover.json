@@ -1,0 +1,29 @@
+{
+  "clean_disregarding": [
+    "studies/lesson-planning-2026/manifests/"
+  ],
+  "commit": "e9e0006557ea3b358cc5205470e313671058f466",
+  "generated_at": "2026-09-03T07:48:44+00:00",
+  "parameters": {
+    "arms": [
+      "multi_agent",
+      "single_model"
+    ],
+    "bootstrap_seed": 20260902,
+    "cluster": "origin",
+    "clusters": 38,
+    "concordance_fields": [
+      "experience",
+      "stage",
+      "subject"
+    ],
+    "margin": 0.4,
+    "margin_unit": "scale points",
+    "records": 74,
+    "resamples": 3000,
+    "schema_digest": "557cfd347dab081e5d329bae5611034bd762cb875227baca42cc8147e2beb1dd"
+  },
+  "platform": "Windows-10-10.0.19044-SP0",
+  "python": "3.13.9",
+  "working_tree_clean": true
+}
