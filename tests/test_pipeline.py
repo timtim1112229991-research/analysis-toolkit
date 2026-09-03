@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src import comparison, integrity, reliability, sensitivity, simulate
+from src import comparison, integrity, reliability, reporting, sensitivity, simulate
 from src.equivalence import Margin, equivalence_table, tost
 
 
@@ -99,3 +99,29 @@ def test_comparison_requires_two_arms(sample, items):
     single = sample[sample["arm"] == "control"]
     with pytest.raises(ValueError):
         comparison.compare(single, items)
+
+
+def test_cleanliness_disregards_only_the_named_prefixes(monkeypatch):
+    """A run may disregard the manifest it is writing, and nothing else."""
+    porcelain = " M studies/demo/manifests/run.json\n M src/adoption.py\n"
+
+    class Result:
+        stdout = porcelain
+
+    monkeypatch.setattr(reporting.subprocess, "run", lambda *a, **k: Result())
+    assert reporting.working_tree_clean(("studies/demo/manifests/",)) is False
+
+    class OnlyManifest:
+        stdout = " M studies/demo/manifests/run.json\n?? studies/demo/manifests/\n"
+
+    monkeypatch.setattr(reporting.subprocess, "run", lambda *a, **k: OnlyManifest())
+    assert reporting.working_tree_clean(("studies/demo/manifests/",)) is True
+    assert reporting.working_tree_clean() is False
+
+
+def test_manifest_records_what_it_disregarded(tmp_path):
+    manifest = reporting.run_manifest(
+        tmp_path, {"seed": 1}, name="demo", ignore=("studies/demo/manifests/",)
+    )
+    assert manifest["clean_disregarding"] == ["studies/demo/manifests/"]
+    assert (tmp_path / "demo.json").exists()

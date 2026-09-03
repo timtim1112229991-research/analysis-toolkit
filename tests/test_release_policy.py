@@ -128,7 +128,7 @@ def test_published_manifests_carry_no_results():
             continue
         record = json.loads(path.read_text(encoding="utf-8"))
         unexpected = set(record) - {
-            "generated_at", "commit", "working_tree_clean",
+            "generated_at", "commit", "working_tree_clean", "clean_disregarding",
             "python", "platform", "parameters",
         }
         if unexpected:

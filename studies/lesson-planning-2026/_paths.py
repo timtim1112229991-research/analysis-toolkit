@@ -71,4 +71,9 @@ def record_run(driver, parameters):
 
     from src.reporting import run_manifest
 
-    return run_manifest(Path(MANIFESTS), parameters, name=driver.lstrip('_'))
+    # A manifest cannot predate itself, so the directory it lands in is the one
+    # thing its own cleanliness check has to disregard. The exemption is named
+    # in the manifest rather than applied quietly.
+    here = os.path.relpath(MANIFESTS, REPOSITORY).replace(os.sep, '/') + '/'
+    return run_manifest(Path(MANIFESTS), parameters,
+                        name=driver.lstrip('_'), ignore=(here,))

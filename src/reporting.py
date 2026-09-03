@@ -33,20 +33,32 @@ def commit_hash() -> str:
         return "unavailable"
 
 
-def working_tree_clean() -> bool:
+def working_tree_clean(ignore: tuple[str, ...] = ()) -> bool:
+    """Whether the tree matches the commit, disregarding the given prefixes.
+
+    A manifest written into the repository dirties the tree by existing, so a
+    run that publishes its own provenance can never report a clean tree unless
+    it may disregard the file it is about to write. Anything disregarded is
+    named in the manifest, so the exemption is visible rather than assumed.
+    """
     try:
         result = subprocess.run(
             ["git", "status", "--porcelain"], capture_output=True, text=True, timeout=5, check=False
         )
-        return result.stdout.strip() == ""
     except (OSError, subprocess.SubprocessError):
         return False
+    for line in result.stdout.splitlines():
+        path = line[3:].strip().strip('"')
+        if path and not any(path.startswith(prefix) for prefix in ignore):
+            return False
+    return True
 
 
 def run_manifest(
     destination: Path,
     parameters: dict[str, object],
     name: str = "run_manifest",
+    ignore: tuple[str, ...] = (),
 ) -> dict[str, object]:
     """Write the provenance record that accompanies every set of results.
 
@@ -56,7 +68,8 @@ def run_manifest(
     manifest = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "commit": commit_hash(),
-        "working_tree_clean": working_tree_clean(),
+        "working_tree_clean": working_tree_clean(ignore),
+        "clean_disregarding": list(ignore),
         "python": sys.version.split()[0],
         "platform": platform.platform(),
         "parameters": parameters,
