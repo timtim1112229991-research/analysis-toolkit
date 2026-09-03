@@ -144,6 +144,10 @@ def main(argv: list[str] | None = None) -> None:
             "seed": arguments.seed,
             "items": len(items),
             "records": int(len(frame)),
+            # The adoption model is the one part of the pipeline whose shape is
+            # chosen rather than derived, so the choice belongs in the record.
+            "outcome": outcome,
+            "predictors": list(predictors),
         },
     )
 

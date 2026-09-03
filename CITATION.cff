@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+title: Two-Arm Ordinal Instrument Analysis Toolkit
+message: Please cite this software if it supports your work.
+type: software
+license: MIT
+version: 1.0.0
+authors:
+  - family-names: Huang
+    given-names: Hai
+    orcid: https://orcid.org/0009-0009-5121-124X
+    affiliation: Zhuhai College of Science and Technology, Zhuhai, China
+  - family-names: Chen
+    given-names: Tet Khuan
+    orcid: https://orcid.org/0009-0007-9703-7043
+    affiliation: Asia Pacific University of Technology and Innovation, Kuala Lumpur, Malaysia
+  - family-names: Lai
+    given-names: Ngan Kuen
+    orcid: https://orcid.org/0000-0001-6806-8034
+    affiliation: Asia Pacific University of Technology and Innovation, Kuala Lumpur, Malaysia
+abstract: >-
+  Analysis code for controlled comparisons that use short ordinal instruments
+  administered to practitioners. It covers equivalence testing against a
+  declared margin, multiplicity control across instrument items, declared
+  response integrity screening reported as a sensitivity family, and inference
+  for clustered and partially paired samples. The repository also carries the
+  drivers, the column map and the run provenance for the lesson planning study
+  of 2026, so that each reported estimate can be traced to the code state and
+  the parameter values behind it.
+keywords:
+  - equivalence testing
+  - ordinal instruments
+  - cluster bootstrap
+  - response integrity
+  - sensitivity analysis
+  - reproducible research
+repository-code: https://github.com/timtim1112229991-research/analysis-toolkit

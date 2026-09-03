@@ -21,6 +21,11 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
+#: Resampling seed used unless a caller supplies its own. Named here rather
+#: than repeated in each signature so that a run manifest can cite the same
+#: value the estimator actually used.
+DEFAULT_SEED = 20260902
+
 
 @dataclass(frozen=True)
 class ClusterDiagnosis:
@@ -78,7 +83,7 @@ def cluster_bootstrap_difference(
     cluster: str,
     arms: tuple[str, str],
     n_boot: int = 5000,
-    seed: int = 20260902,
+    seed: int = DEFAULT_SEED,
     alpha: float = 0.05,
 ) -> dict[str, float]:
     """Mean difference between arms with a cluster bootstrap interval.
@@ -138,7 +143,7 @@ def cluster_equivalence(
     arms: tuple[str, str],
     margin: float,
     n_boot: int = 5000,
-    seed: int = 20260902,
+    seed: int = DEFAULT_SEED,
     alpha: float = 0.05,
 ) -> dict[str, float | bool | str]:
     """Equivalence by interval inclusion, using a cluster bootstrap interval.
@@ -233,7 +238,7 @@ def cluster_bootstrap_coefficients(
     cluster: str,
     estimator: Callable[[pd.DataFrame], pd.Series],
     n_boot: int = 2000,
-    seed: int = 20260902,
+    seed: int = DEFAULT_SEED,
     alpha: float = 0.05,
     exponentiate: bool = False,
 ) -> pd.DataFrame:

@@ -1,6 +1,12 @@
 # ---------------------------------------------------------------------------
-# Release policy: source code only. No input data, no derived data, no outputs.
-# Every pattern below is deliberate. Do not relax without review.
+# Release policy: source code and provenance. No input data, no derived data,
+# no results. Every pattern below is deliberate. Do not relax without review.
+#
+# Provenance is the one narrow exception, admitted at the foot of this file: a
+# study may publish the column map it read its records through, the digests of
+# the record set it fixed, and the parameters behind each run. None of those
+# carries an observation, and without them a claim that the code produced the
+# reported numbers cannot be checked by anyone outside the project.
 # ---------------------------------------------------------------------------
 
 # Input data of any kind
@@ -74,3 +80,18 @@ env/
 .idea/
 .DS_Store
 Thumbs.db
+
+# ---------------------------------------------------------------------------
+# Published provenance, re-admitted after the blanket rules above.
+#
+# A column map, digests of the fixed record set, and the parameters behind each
+# run. These describe the analysis; they do not contain any part of it. Results
+# and records remain excluded, so a study directory may hold these three things
+# and nothing else that the rules above would have caught.
+# ---------------------------------------------------------------------------
+!studies/*/study.schema.json
+!studies/*/record_snapshot.json
+!studies/*/manifests/*.json
+
+# Archive metadata for the deposit that mints the citable identifier.
+!.zenodo.json

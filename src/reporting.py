@@ -43,8 +43,16 @@ def working_tree_clean() -> bool:
         return False
 
 
-def run_manifest(destination: Path, parameters: dict[str, object]) -> dict[str, object]:
-    """Write the provenance record that accompanies every set of results."""
+def run_manifest(
+    destination: Path,
+    parameters: dict[str, object],
+    name: str = "run_manifest",
+) -> dict[str, object]:
+    """Write the provenance record that accompanies every set of results.
+
+    A study that runs several scripts over one record set needs one record per
+    script, so the file name is a parameter rather than a constant.
+    """
     manifest = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "commit": commit_hash(),
@@ -53,7 +61,11 @@ def run_manifest(destination: Path, parameters: dict[str, object]) -> dict[str, 
         "platform": platform.platform(),
         "parameters": parameters,
     }
-    (destination / "run_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    destination.mkdir(parents=True, exist_ok=True)
+    (destination / f"{name}.json").write_text(
+        json.dumps(manifest, indent=2, sort_keys=True, ensure_ascii=True) + "\n",
+        encoding="utf-8",
+    )
     return manifest
 
 

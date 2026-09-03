@@ -1,0 +1,63 @@
+{
+  "created_at": "2026-09-03T06:21:08+00:00",
+  "purpose": "Fixes the record set behind the reported estimates so that a later run can be shown to have used exactly these records.",
+  "source_files": [
+    {
+      "name": "360254564_\u6309\u6587\u672c_AI\u6559\u6848\u751f\u6210\u5de5\u5177\u7528\u6237\u4f53\u9a8c\u8c03\u67e5\u95ee\u5377\uff08\u591a\u667a\u80fd\u4f53\u7ec4\uff09_32_31.xlsx",
+      "bytes": 14802,
+      "sha256": "87b267caedbb264501fd6084328abb9febbdf913539df01a083c3c654d55e3cf"
+    },
+    {
+      "name": "361176326_\u6309\u6587\u672c_AI\u6559\u6848\u751f\u6210\u5de5\u5177\u7528\u6237\u4f53\u9a8c\u8c03\u67e5\u95ee\u5377\uff08\u5343\u95ee\u7ec4\uff09_29_29.xlsx",
+      "bytes": 14275,
+      "sha256": "ede3c4fd52e551f6cb36b169be6bd32b20e684c48c9ccef74046ff04b56f8faf"
+    },
+    {
+      "name": "367144800_\u6309\u6587\u672c_AI\u6559\u6848\u751f\u6210\u5de5\u5177\u7528\u6237\u4f53\u9a8c\u8c03\u67e5\u95ee\u5377\uff08\u591a\u667a\u80fd\u4f53\u7ec4\uff09_7_7.xlsx",
+      "bytes": 11946,
+      "sha256": "7deec81307c664019de992e8d7ad7e5eaaf4ada59e62bc885e5eb3834876d9aa"
+    },
+    {
+      "name": "367144889_\u6309\u6587\u672c_AI\u6559\u6848\u751f\u6210\u5de5\u5177\u7528\u6237\u4f53\u9a8c\u8c03\u67e5\u95ee\u5377\uff08\u5927\u6a21\u578b\u7ec4\uff09_7_7.xlsx",
+      "bytes": 11883,
+      "sha256": "5a84ea3f411cf492dcc665caf6851acc093420edc9f25ae83d97e7a694f251c9"
+    }
+  ],
+  "schema": {
+    "name": "study.schema.json",
+    "sha256": "557cfd347dab081e5d329bae5611034bd762cb875227baca42cc8147e2beb1dd",
+    "items": 12
+  },
+  "analysable_frame": {
+    "records": 74,
+    "columns_hashed": [
+      "arm",
+      "wave",
+      "origin",
+      "submitted_at",
+      "duration_s",
+      "logic",
+      "innovation",
+      "accuracy",
+      "differentiation",
+      "implementability",
+      "controllability",
+      "transparency",
+      "cognitive_effort",
+      "collaboration",
+      "trust",
+      "intention",
+      "inspiration"
+    ],
+    "sha256": "b3b7372ce7c29fb83d93db56baf5b01989b1130185af07239809cf6b67711a1a",
+    "by_arm": {
+      "multi_agent": 38,
+      "single_model": 36
+    },
+    "by_wave": {
+      "wave_1": 58,
+      "wave_2": 16
+    },
+    "origins": 38
+  }
+}

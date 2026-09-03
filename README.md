@@ -59,8 +59,23 @@ python -m src.run_analysis --schema config/study.schema.json --input "path/to/*.
     --margin 0.40 --margin-basis "half of one scale point" --declared-on 2026-09-02
 ```
 
-The `config/` directory is excluded from version control because a completed schema echoes labels
-from the source instrument.
+The `config/` directory is excluded from version control. A schema echoes labels from the source
+instrument, so it is kept local unless a study deliberately publishes its own under `studies/`.
+
+## Studies
+
+A study directory holds the drivers that produced one set of published results, together with the
+provenance needed to check them: the column map the records were read through, digests fixing the
+analysed record set, and one manifest per run recording the code state, interpreter, random seed
+and parameter values.
+
+| Study | Subject |
+|---|---|
+| `studies/lesson-planning-2026/` | Two-arm comparison of an AI lesson planning tool, multi-agent against single model |
+
+Records are not distributed, so a study cannot be rerun from a clone alone. It can be audited line
+by line, and it can be applied to your own records by pointing `STUDY_DATA` and `STUDY_OUTPUTS` at
+them. See the README inside the study directory.
 
 ## Declaring an equivalence margin
 
@@ -77,9 +92,12 @@ whole sensitivity family rather than a single preferred estimate.
 
 ## Release policy
 
-This repository contains source code only. Input data, derived data, results tables, figures, model
-artefacts and logs are excluded by `.gitignore` and must not be committed. Verify with
-`git status --porcelain` before every push.
+This repository contains source code and run provenance. Input data, derived data, results tables,
+figures, model artefacts and logs are excluded by `.gitignore` and must not be committed. The one
+narrow exception is provenance under `studies/`: a column map, record digests and run manifests,
+none of which carries an observation. `tests/test_release_policy.py` enforces both the ban and the
+limits of the exception, so a violation fails the suite. Verify with `git status --porcelain`
+before every push.
 
 ## Tests
 

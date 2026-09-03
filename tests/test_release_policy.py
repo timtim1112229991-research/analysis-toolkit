@@ -6,6 +6,7 @@ than reaching a remote host.
 
 from __future__ import annotations
 
+import json
 import re
 import subprocess
 from pathlib import Path
@@ -94,6 +95,45 @@ def test_no_automated_tool_is_credited():
         if any(term in text for term in FORBIDDEN_TERMS):
             offenders.append(path.name)
     assert offenders == [], f"automated tool credited in: {offenders}"
+
+
+def test_study_directories_publish_only_code_and_provenance():
+    """The provenance exception is narrow and must stay that way.
+
+    A study directory may hold drivers, a column map, the digests of the fixed
+    record set, and one manifest per run. Anything else there would be a result
+    or a record, which is what the policy exists to keep out.
+    """
+    permitted_names = {"study.schema.json", "record_snapshot.json"}
+    offenders = []
+    for path in tracked_files():
+        parts = path.relative_to(ROOT).parts
+        if not parts or parts[0] != "studies":
+            continue
+        if path.suffix in {".py", ".md"}:
+            continue
+        if path.suffix == ".json" and (
+            path.name in permitted_names or parts[-2:-1] == ("manifests",)
+        ):
+            continue
+        offenders.append("/".join(parts))
+    assert offenders == [], f"unexpected files in a study directory: {offenders}"
+
+
+def test_published_manifests_carry_no_results():
+    """A manifest states how a run was configured, never what it found."""
+    offenders = []
+    for path in tracked_files():
+        if path.parent.name != "manifests" or path.suffix != ".json":
+            continue
+        record = json.loads(path.read_text(encoding="utf-8"))
+        unexpected = set(record) - {
+            "generated_at", "commit", "working_tree_clean",
+            "python", "platform", "parameters",
+        }
+        if unexpected:
+            offenders.append(f"{path.name}: {sorted(unexpected)}")
+    assert offenders == [], f"manifests carry unexpected fields: {offenders}"
 
 
 def test_gitignore_covers_every_restricted_directory():

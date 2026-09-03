@@ -1,0 +1,33 @@
+{
+  "title": "Two-Arm Ordinal Instrument Analysis Toolkit",
+  "description": "Analysis code for controlled comparisons that use short ordinal instruments administered to practitioners. Covers equivalence testing against a declared margin, multiplicity control across instrument items, declared response integrity screening with a sensitivity family, and inference for clustered and partially paired samples. Includes the drivers, column map and run provenance for the lesson planning study of 2026.",
+  "upload_type": "software",
+  "license": "MIT",
+  "access_right": "open",
+  "creators": [
+    {
+      "name": "Huang, Hai",
+      "affiliation": "Zhuhai College of Science and Technology, Zhuhai, China",
+      "orcid": "0009-0009-5121-124X"
+    },
+    {
+      "name": "Chen, Tet Khuan",
+      "affiliation": "Asia Pacific University of Technology and Innovation, Kuala Lumpur, Malaysia",
+      "orcid": "0009-0007-9703-7043"
+    },
+    {
+      "name": "Lai, Ngan Kuen",
+      "affiliation": "Asia Pacific University of Technology and Innovation, Kuala Lumpur, Malaysia",
+      "orcid": "0000-0001-6806-8034"
+    }
+  ],
+  "keywords": [
+    "equivalence testing",
+    "ordinal instruments",
+    "cluster bootstrap",
+    "response integrity",
+    "sensitivity analysis",
+    "reproducible research"
+  ],
+  "notes": "Response records are held in restricted storage and are not part of this archive. The column map, the digests of the fixed record set and the run manifests are included so that any reported estimate can be traced to the code state and parameter values that produced it."
+}

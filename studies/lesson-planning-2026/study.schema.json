@@ -1,0 +1,69 @@
+{
+  "columns": {
+    "respondent_id": 0,
+    "submitted_at": 1,
+    "duration": 2,
+    "origin": 5,
+    "reported_total": 6,
+    "demographics": {
+      "experience": 7,
+      "stage": 8,
+      "subject": 9,
+      "digital_confidence": 10,
+      "tool_frequency": 11
+    },
+    "items": {
+      "logic": 12,
+      "innovation": 13,
+      "accuracy": 14,
+      "differentiation": 15,
+      "implementability": 16,
+      "controllability": 17,
+      "transparency": 18,
+      "cognitive_effort": 19,
+      "collaboration": 20,
+      "trust": 21,
+      "intention": 22,
+      "inspiration": 23
+    },
+    "open_text": {
+      "open_positive": 24,
+      "open_negative": 25,
+      "open_process": 26
+    }
+  },
+  "ordinal_labels": [
+    "\u5f88\u4e0d\u6ee1\u610f",
+    "\u4e0d\u6ee1\u610f",
+    "\u4e00\u822c",
+    "\u6ee1\u610f",
+    "\u5f88\u6ee1\u610f"
+  ],
+  "dimensions": {
+    "artefact_quality": [
+      "logic",
+      "innovation",
+      "accuracy",
+      "differentiation",
+      "implementability"
+    ],
+    "interaction_experience": [
+      "controllability",
+      "transparency",
+      "cognitive_effort",
+      "collaboration"
+    ],
+    "adoption_disposition": [
+      "trust",
+      "intention",
+      "inspiration"
+    ]
+  },
+  "arm_from_filename": {
+    "360254564": "multi_agent",
+    "367144800": "multi_agent",
+    "361176326": "single_model",
+    "367144889": "single_model"
+  },
+  "wave_boundary": "2026-06-01"
+}
